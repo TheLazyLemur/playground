@@ -1,0 +1,34 @@
+
+package main
+
+import "fmt"
+
+templ layout() {
+	<html>
+		<script src="https://unpkg.com/htmx.org@2.0.4"></script>
+		<body>
+			<a hx-boost="true" href="/">Home</a>
+			<a hx-boost="true" href="/page1">Page 1</a>
+			{ children... }
+		</body>
+	</html>
+}
+
+templ ReactComponent(count int) {
+	@layout() {
+		<div id="data" x-data={ fmt.Sprintf("%d", count) }></div>
+		<div id="react-content"></div>
+		<script src="/index.js"></script>
+	}
+}
+
+templ TemplComponent() {
+	@layout() {
+		<h1>This is server-side content from templ.</h1>
+		<button hx-get="/click" hx-swap="outerHTML">Click me</button>
+	}
+}
+
+templ click() {
+	<h1>Clicked!</h1>
+}
